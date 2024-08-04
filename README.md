@@ -14,22 +14,22 @@ terraform {
 
 data "cloudflare_zones" "example_dev_zone" {
   filter {
-    name = "example.dev"
+    name = "example.dev" # domain
   }
 }
 
 module "single_dns_record" {
-  source = "./modules/dns-record"
+  source = "git::https://github.com/kranurag7/cftf.git//modules/dns-record?depth=1&ref=main"
   zone_id    = data.cloudflare_zones.example_dev_zone.zones[0].id
   subdomain  = "cftf"
   ip_address = "96.97.98.99"
 }
 
 module "list_of_dns_records" {
-    source = "./modules/dns-record-list"
+  source = "git::https://github.com/kranurag7/cftf.git//modules/dns-record-list?depth=1&ref=main"
     zone_id = data.cloudflare_zones.example_dev_zone.zones[0].id
     subdomains_list = ["cftf1", "cftf2", "cftf3"]
-    ip_address = "96.97.98.99"
+    ip_address = "96.97.98.99" # this is random, change this.
 }
 ```
 
